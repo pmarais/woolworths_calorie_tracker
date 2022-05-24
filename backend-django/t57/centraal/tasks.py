@@ -17,7 +17,7 @@ def add_food_item(pk):
     print(food)
 
     ## Checking if the web object was saved to string in JSON via a previous collect
-    if food.f_json_dumps:
+    if food.f_json_dumps!='':
         product = json.loads(food.f_json_dumps)
     ## If not, collect
     else:

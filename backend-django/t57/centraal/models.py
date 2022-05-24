@@ -16,6 +16,7 @@ class Food(models.Model):
     f_owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_foods', on_delete=models.CASCADE, null=True, blank=True)
     f_name = models.CharField(max_length=255, default='', blank=True, null=True)
     f_url = models.CharField(max_length=255, default='', blank=True, null=True)
+    f_json_dumps = models.TextField(default='', blank=True, null=True)
     f_image_url = models.CharField(max_length=255, default='', blank=True, null=True)
     f_ingredients = models.TextField(default='', blank=True, null=True)
     f_total_fat = models.FloatField(default=0, blank=True, null=True)
@@ -73,15 +74,15 @@ class Portion(models.Model):
         self.p_carb = self.p_food.f_carb * ratio
         self.p_sugar = self.p_food.f_sugar * ratio
         super(Portion, self).save(*args, **kwargs)
-    
+
 
     def __str__(self):
         return "%s) %s [%s]"%(self.pk, self.p_food, self.p_dry_weight)
 
 
-def get_todays_tally(date=None):
+def get_todays_tally(user, date=None):
     thisdate = date if date else datetime.date.today()
-    portions = Portion.objects.filter(p_date__contains=thisdate)
+    portions = Portion.objects.filter(p_owner=user, p_date__contains=thisdate)
     total = {
         'kcal': 0,
         'carbs': 0,
@@ -92,7 +93,7 @@ def get_todays_tally(date=None):
     for portion in portions:
         total['kcal'] = total['kcal'] + portion.p_kcal
         total['carbs'] = total['carbs'] + portion.p_carb
-        total['fat'] = total['fat'] + portion.p_fa
-        total['protein'] = total['kcal'] + portion.p_kcal
-        total['fibre'] = total['kcal'] + portion.p_kcal
+        total['fat'] = total['fat'] + portion.p_total_fat
+        total['protein'] = total['protein'] + portion.p_protein
+        total['fibre'] = total['fibre'] + portion.p_fibre
     return total

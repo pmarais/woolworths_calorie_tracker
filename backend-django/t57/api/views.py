@@ -23,6 +23,17 @@ class MeView(APIView):
         }
         return Response(content)
 
+class MeTodayView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'status': get_todays_tally(request.user),  # None
+        }
+        return Response(content)
+
 # ViewSets define the view behavior.
 class FoodViewSet(viewsets.ModelViewSet):
     queryset = Food.objects.all().order_by('-pk')

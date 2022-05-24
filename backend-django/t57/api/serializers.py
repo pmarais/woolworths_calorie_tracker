@@ -9,7 +9,7 @@ class FoodSerializer(serializers.ModelSerializer):
         model = Food
         # fields = ['url', 'username', 'email', 'is_staff']
         fields =  '__all__'
-        read_only_fields = [ 'f_owner', 'f_name', 'f_image_url', 'f_ingredients', 'f_sat_fat', 'f_trans_fat', 'f_mono_fat', 'f_poly_fat', 'f_chol_fat', 'f_fibre', 'f_kj', 'f_kcal', 'f_sodium', 'f_protein', 'f_carb', 'f_sugar']
+        read_only_fields = [ 'f_total_fat' ,'f_json_dumps', 'f_owner', 'f_name', 'f_image_url', 'f_ingredients', 'f_sat_fat', 'f_trans_fat', 'f_mono_fat', 'f_poly_fat', 'f_chol_fat', 'f_fibre', 'f_kj', 'f_kcal', 'f_sodium', 'f_protein', 'f_carb', 'f_sugar']
 
 
 # Serializers define the API representation.

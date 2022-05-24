@@ -23,4 +23,5 @@ urlpatterns = [
 
     ## Get Me
     re_path(r'^me/$', views.MeView.as_view(), name='config'),
+    re_path(r'^me_today/$', views.MeTodayView.as_view(), name='config'),
 ]
